@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_next"
+    tools:context=".AddTaskActivity">
+
+    <TextView
+        android:id="@+id/editTask_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginTop="27dp"
+        android:text="@string/task"
+        android:textColor="@android:color/background_light"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/name_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/name_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+
+        android:text="@string/task_name"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTask_add" />
+
+    <TextView
+        android:id="@+id/id_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+
+        android:text="Id_Number"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="45dp"
+
+        android:background="#ff5c33"
+        android:elevation="2dp"
+        android:text="@string/add"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/year_add"
+        android:layout_width="82dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="67dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="55dp"
+
+        android:contentDescription="@string/year"
+        android:ems="10"
+        android:hint="Year"
+        android:inputType="textPersonName|number"
+        android:text="@string/year"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/day_add"
+        app:layout_constraintTop_toBottomOf="@+id/name_add" />
+
+    <EditText
+        android:id="@+id/day_add"
+        android:layout_width="72dp"
+        android:layout_height="43dp"
+        android:layout_marginEnd="24dp"
+
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="@string/day"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toStartOf="@+id/year_add"
+        app:layout_constraintStart_toEndOf="@+id/month_add"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/month_add"
+        android:layout_width="61dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="44dp"
+        android:ems="10"
+
+        android:inputType="number"
+        android:text="@string/month"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintBottom_toTopOf="@+id/hour_add"
+        app:layout_constraintEnd_toStartOf="@+id/day_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/minute_add"
+        android:layout_width="72dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="6dp"
+
+        android:contentDescription="@string/minute"
+        android:ems="10"
+        android:inputType="number"
+        android:text="@string/minute"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
+        app:layout_constraintStart_toEndOf="@+id/hour_add"
+        app:layout_constraintTop_toBottomOf="@+id/day_add" />
+
+    <EditText
+        android:id="@+id/detail_add"
+        android:layout_width="215dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="125dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+
+        android:contentDescription="@string/description"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/description"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/minute_add" />
+
+    <EditText
+        android:id="@+id/hour_add"
+        android:layout_width="62dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="@string/day"
+
+        android:ems="10"
+        android:inputType="textPersonName|number"
+        android:text="@string/hour"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toStartOf="@+id/minute_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month_add" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="108dp"
+        android:layout_height="42dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="25dp"
+
+        android:layout_marginTop="3dp"
+        android:textColor="@android:color/background_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/minute_add"
+        app:layout_constraintTop_toBottomOf="@+id/year_add" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="113dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="224dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/task_due"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/day_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_add" />
+
+    <TextView
+        android:id="@+id/Repeating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="109dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="83dp"
+        android:text="Repeating Every"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/repeat_add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detail_add" />
+
+    <EditText
+        android:id="@+id/repeat_add"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="82dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintBottom_toTopOf="@+id/add_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/Repeating"
+        app:layout_constraintTop_toBottomOf="@+id/detail_add" />
+
+    <TextView
+        android:id="@+id/minute_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="73dp"
+        android:layout_marginEnd="61dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="145dp"
+        android:text="Minutes"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/id_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/repeat_add"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="328dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_delete" />
+
+</android.support.constraint.ConstraintLayout>
