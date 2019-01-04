@@ -28,34 +28,14 @@
 
 
             <TextView
-                android:id="@+id/id_View_card"
-                android:layout_width="57dp"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/taskName_card"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <ImageView
-                android:id="@+id/icon_cardView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
-                android:minHeight="@android:dimen/app_icon_size"
-                android:minWidth="@android:dimen/app_icon_size"
-                app:srcCompat="@drawable/ic_baseline_flight_24px" />
-
-
-            <TextView
                 android:id="@+id/taskName_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/icon_cardView"
                 android:text="TextView"
-                android:textSize="30sp" />
+                android:textAlignment="textStart"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/due_date_card"

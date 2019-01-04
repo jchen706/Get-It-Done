@@ -1,5 +1,7 @@
 package com.ceeh.getit;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,9 +11,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.ceeh.getit.Model.Task;
@@ -49,24 +53,27 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
     private static int next_Id  = 1;
 
     //Time components
-    private EditText _month;
-    private EditText _day;
-    private EditText _year;
-
-    private EditText _hour;
-    private EditText _minute;
-    private EditText _repeatTime;
-
-    private int month;
-    private int day;
-    private int year;
-    private int repeatTime;
+    private TextView _due_date;
 
 
-    private int hour;
-    private int minute;
+    private TextView _due_time;
+
+
+    private int _month;
+    private int _day;
+    private int _year;
+    private int repeatTime = 0;
+
+    private DatePickerDialog picker;
+    private TimePickerDialog timePiker;
+
+
+    private int _hour;
+    private int _minute;
 
     private FloatingActionButton close;
+    private Button _setDate;
+    private Button _setTime;
 
 
     @Override
@@ -74,31 +81,83 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        _month = (EditText) findViewById(R.id.month_add);
-        _day = (EditText) findViewById(R.id.day_add);
-        _year = (EditText) findViewById(R.id.year_add);
 
-        _hour = (EditText) findViewById(R.id.hour_add);
-        _minute = (EditText) findViewById(R.id.minute_add);
-        _repeatTime = (EditText) findViewById(R.id.repeat_add);
+         _setTime = (Button) findViewById(R.id.set_Time_add);
+        _setDate = (Button) findViewById(R.id.set_date_add);
+        _due_date = (TextView) findViewById(R.id.due_date_add);
+        _due_time = (TextView) findViewById(R.id.alert_time_add);
 
-        am_pm = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.am_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        am_pm.setAdapter(adapter);
+
+        _setDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar now = Calendar.getInstance();
+
+                final int day = now.get(Calendar.DAY_OF_MONTH);
+                final int month = now.get(Calendar.MONTH);
+                int year = now.get(Calendar.YEAR);
+                // date picker dialog
+                picker = new DatePickerDialog(AddTaskActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    _year = year;
+                                    _month = monthOfYear + 1;
+                                    _day = dayOfMonth;
+
+                                _due_date.setText(_month + "/" + _day + "/" + _year);
+                            }
+                        }, year, month, day);
+                picker.show();
+
+            }
+        });
+
+
+
+        _setTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Calendar mcurrentTime = Calendar.getInstance();
+                final int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+
+
+                timePiker = new TimePickerDialog(AddTaskActivity.this, new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        _hour = i;
+                        _minute = i1;
+                        if (_hour / 12 == 1) {
+                            am = "PM";
+                        } else {
+                            am = "AM";
+                        }
+
+                        if (hour == 0) {
+                            _hour = 12;
+                        }
+
+                        _due_time.setText(_hour + ":" +_minute + " " + am);
+
+                    }
+                }, hour, minute, false );
+                timePiker.setTitle("Set Time");
+                timePiker.show();
+
+            }
+        });
+
 
         final Intent active = new Intent();
         final int activeValue = active.getIntExtra("INACTIVE", 1);
-
-
 
         _taskName = (EditText) findViewById(R.id.name_add);
         _detail =   (EditText) findViewById(R.id.detail_add);
         _id = (TextView) findViewById(R.id.id_add);
         _add = (Button) findViewById(R.id.add_button);
-
 
 
         close = (FloatingActionButton) findViewById(R.id.floatingActionButton);
@@ -118,22 +177,13 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
        taskHandler = new TaskDatabase(this);
 
 
-
-
-
-
-
-
         _add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                am = am_pm.getSelectedItem().toString();
 
                 final int check = check();
-                final int checkDay =  checkDayValues();
-                final int checkHour = checkHours();
 
-                if (check == -1 && checkDay == 5 && checkHour == 1) {
+                if (check == -1) {
 
 
 
@@ -145,11 +195,16 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
                     Calendar cal = Calendar.getInstance();
                     Calendar now1 = Calendar.getInstance();
 
-
-                    if (am.equals("PM")) {
-                        hour = hour + 12;
+                    if (am == "AM") {
+                        if (_hour == 12) {
+                            _hour = 0;
+                        }
                     }
-                    cal.set(year,month - 1, day, hour % 24, minute, 0);
+
+
+
+
+                    cal.set(_year,_month - 1, _day, _hour % 24, _minute, 0);
                     long now2 = now1.getTimeInMillis();
                     long cal2 = cal.getTimeInMillis();
                     if (now2 <= cal2) {
@@ -157,18 +212,18 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
 
                         Log.v(TAG, cal.getTime() + " " + am);
 
-                        date = monthChecker() + "/" + dayChecker() + "/" + year;
+                        date = monthChecker() + "/" + dayChecker() + "/" + _year;
                         time = hourChecker() + ":" + minutesChecker() + ":" + am;
 
                         Log.v(TAG, date);
                         Log.v(TAG, time);
 
 
-                        if (_repeatTime.getText().toString().length() < 1) {
-                            repeatTime = 0;
-                        } else {
-                            repeatTime = Integer.parseInt(_repeatTime.getText().toString());
-                        }
+//                        if (_repeatTime.getText().toString().length() < 1) {
+//                            repeatTime = 0;
+//                        } else {
+//                            repeatTime = Integer.parseInt(_repeatTime.getText().toString());
+//                        }
 
                         String active_msg = "Active";
                         if (activeValue == 0) {
@@ -255,208 +310,43 @@ public class AddTaskActivity extends AppCompatActivity implements AdapterView.On
 
 
     private String hourChecker() {
-        String num = _hour.getText().toString();
-        if (Integer.parseInt(num) < 10 && num.length() < 2) {
+        Integer _hour1 = _hour % 12;
+        String num = String.valueOf(_hour1);
+        if (_hour < 10 && num.length() < 2) {
             num = "0" + num;
         }
-
         return num;
-
     }
     //codes can be simplified
 
 
     private String dayChecker() {
-        String num = "";
-        if (Integer.parseInt(_day.getText().toString()) < 10 && _day.getText().toString().length() < 2) {
-            num = "0" + Integer.parseInt(_day.getText().toString());
-        } else {
-            num = _day.getText().toString();
+        String num = String.valueOf(_day);
+        if (_day < 10) {
+            num = "0" + num;
         }
-
         return num;
-
     }
     //codes can be simplified
 
     private String minutesChecker() {
-        String num = "";
-        Log.v(TAG,_minute.getText().toString());
-        if (Integer.parseInt(_minute.getText().toString()) < 10  && _minute.getText().toString().length() < 2) {
-            num = "0" + Integer.parseInt(_minute.getText().toString());
-        }  else {
-            num = _minute.getText().toString();
-        }
+        String num = String.valueOf(_minute);
 
+        if (_minute < 10  && num.length() < 2) {
+            num = "0" + num;
+        }
         return num;
 
     }
 
     //codes can be simplified
     private String monthChecker() {
-        String num = "";
-        if (Integer.parseInt(_month.getText().toString()) < 10  && _month.getText().toString().length() < 2) {
-            num = "0" + Integer.parseInt(_month.getText().toString());
-        }  else {
-            num = _month.getText().toString();
+       String num = String.valueOf(_month);
+        if (_month < 10  && num.length() < 2) {
+            num = "0" + num;
         }
-
         return num;
-
     }
-
-
-
-
-    private int checkDayValues() {
-        Calendar now = Calendar.getInstance();
-        Calendar later = Calendar.getInstance();
-
-        int a = 0;
-
-        try {
-
-            year = Integer.parseInt(_year.getText().toString());
-            month = Integer.parseInt(_month.getText().toString());
-            day = Integer.parseInt(_day.getText().toString());
-
-            if (month == 0 || day == 0) {
-                return 0;
-            }
-
-            if (year > now.get(Calendar.YEAR)) {
-                a = 1;
-
-                    if (month <= now.getActualMaximum(Calendar.MONTH) + 1) {
-                        a = 3;
-
-                        if (month == 2) {
-                            if ((year - 2000) % 4 != 0 ) {
-                                if (day < 29) {
-                                    return 5;
-                                } else {
-                                    return 0;
-                                }
-                            } else {
-                                if (day <= 29) {
-                                    return 5;
-                                }
-                            }
-                        }
-
-                        later.set(year,month + 1,1);
-
-
-
-                        if (day <= later.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                                a = 5;
-                        }
-
-
-                    }
-
-            } else if (year == now.get(Calendar.YEAR)) {
-                a = 1;
-                if (month == now.get(Calendar.MONTH) + 1) {
-                    a = 2;
-
-                        if (day >= now.get(Calendar.DAY_OF_MONTH)) {
-                            a = 5;
-
-
-                        }
-
-                } else if (month > now.get(Calendar.MONTH) + 1) {
-                    a = 2;
-                    later.set(year,month + 1,1);
-
-                    if (day >= later.getActualMaximum(Calendar.DAY_OF_MONTH)){
-                        a = 5;
-
-
-                    }
-                }
-            }
-
-        } catch (NumberFormatException e) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Invalid Date Format.",
-                    Toast.LENGTH_LONG);
-
-            toast.show();
-        }
-
-        return a;
-    }
-
-
-    private int checkHours() {
-
-        Calendar calendar = Calendar.getInstance();
-        int a = 2;
-        try {
-
-             hour = Integer.parseInt(_hour.getText().toString());
-             minute = Integer.parseInt(_minute.getText().toString());
-
-            if (hour < 0 && hour > 12) {
-                return 0;
-
-            }
-
-            if (hour == 12) {
-                hour = 0;
-            }
-
-
-            if (minute < 0 && minute > 59) {
-                return 0;
-
-            }
-
-            if (Integer.parseInt(_minute.getText().toString()) < 0 &&
-                    Integer.parseInt(_minute.getText().toString()) > calendar.getActualMaximum((Calendar.MINUTE))) {
-                return 0;
-            }
-
-
-            if (Integer.parseInt(_year.getText().toString()) == calendar.get(Calendar.YEAR)) {
-                if (Integer.parseInt(_month.getText().toString()) == calendar.get(Calendar.MONTH) + 1) {
-                    if (Integer.parseInt(_day.getText().toString()) == calendar.get(Calendar.DAY_OF_MONTH)) {
-                        if (am.toString().equals("AM") && calendar.get(Calendar.AM_PM) == 1 ||
-                                am.toString().equals("PM") && calendar.get(Calendar.AM_PM) == 0
-                                ) {
-
-
-                            if (hour < calendar.get(Calendar.HOUR)) {
-                                 a = 0;
-
-                            }
-
-                            if (hour == calendar.get(Calendar.HOUR)) {
-                                if (Integer.parseInt(_minute.getText().toString()) < calendar.get((Calendar.MINUTE))) {
-                                    a = 0;
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-            }
-
-            a = 1;
-        } catch (NumberFormatException e) {
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Invalid Time Format.",
-                    Toast.LENGTH_LONG);
-
-            toast.show();
-        }
-
-        return a;
-    }
-
 
     private int check() {
           int i = 0;

@@ -32,13 +32,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         public TextView dueDateView;
         public Task mTask;
         public View mView;
-        public TextView idView;
         public CheckBox checkBox;
         public MyViewHolder(View v) {
             super(v);
             mView = v;
             checkBox = (CheckBox) v.findViewById(R.id.checkBox2);
-            idView = (TextView) v.findViewById(R.id.id_View_card);
             taskNameView = (TextView) v.findViewById(R.id.taskName_card);
             dueDateView = (TextView) v.findViewById(R.id.due_date_card);
 
@@ -76,8 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         dueView.setText(task.get_dueDate().toString() + " " + time[0] + ":" + time[1] + " " + time[2]);
 
-        TextView idView = holder.idView;
-        idView.setText(task.get_id() + "");
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
